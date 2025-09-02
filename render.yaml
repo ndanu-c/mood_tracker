@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: mood-journal
+    env: python
+    pythonVersion: 3.9.16
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn backend.app:app -w 4 -k uvicorn.workers.UvicornWorker"
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DB_HOST
+        value: db4free.net
+      - key: DB_PORT
+        value: 3306
+      - key: DB_NAME
+        value: your_db4free_db_name
+      - key: DB_USER
+        value: your_db4free_username
+      - key: DB_PASSWORD
+        value: your_db4free_password
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: HUGGINGFACE_API_KEY
+        value: your_hf_api_key
+      - key: PAYSTACK_SECRET_KEY
+        value: your_paystack_secret
+      - key: PAYSTACK_PUBLIC_KEY
+        value: your_paystack_public
+      - key: PORT
+        value: $PORT  # Use Render-injected port
