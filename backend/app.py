@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token, ge
 import bcrypt
 import uuid
 from datetime import datetime, timedelta
-from database import Database
+from .database import Database
 from sentiment_analyzer import SentimentAnalyzer
 from paystack_service import PaystackService
 from config import Config
