@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Journal - AI-Powered Emotion Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-heart"></i>
+                <span>Mood Journal</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="#journal" class="nav-link" data-section="journal">
+                    <i class="fas fa-book"></i> Journal
+                </a>
+                <a href="#insights" class="nav-link" data-section="insights">
+                    <i class="fas fa-brain"></i> Insights
+                </a>
+                <a href="#profile" class="nav-link" data-section="profile">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Authentication Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="authTitle">Welcome to Mood Journal</h2>
+                <p class="subtitle">Track your emotions, understand your patterns</p>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Sign In</button>
+                <p class="form-switch">
+                    Don't have an account? 
+                    <a href="#" id="showRegister">Create one</a>
+                </p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form hidden">
+                <div class="form-group">
+                    <label for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="trial-info">
+                    <i class="fas fa-gift"></i>
+                    <span>Start your 14-day free trial</span>
+                </div>
+                <button type="submit" class="btn-primary">Create Account</button>
+                <p class="form-switch">
+                    Already have an account? 
+                    <a href="#" id="showLogin">Sign in</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section active">
+            <div class="section-header">
+                <h1>Dashboard</h1>
+                <div class="trial-status" id="trialStatus">
+                    <i class="fas fa-clock"></i>
+                    <span id="trialDays">14 days remaining</span>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="card mood-summary">
+                    <h3><i class="fas fa-heart"></i> Current Mood</h3>
+                    <div class="mood-display" id="currentMood">
+                        <div class="mood-emoji">😊</div>
+                        <div class="mood-text">Positive</div>
+                    </div>
+                </div>
+                
+                <div class="card stats-card">
+                    <h3><i class="fas fa-book-open"></i> Journal Stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <span class="stat-number" id="totalEntries">0</span>
+                            <span class="stat-label">Total Entries</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="streakDays">0</span>
+                            <span class="stat-label">Day Streak</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card chart-card">
+                    <h3><i class="fas fa-chart-area"></i> Mood Trends</h3>
+                    <canvas id="moodChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            
+            <div class="recent-entries">
+                <h3>Recent Entries</h3>
+                <div class="entries-list" id="recentEntriesList">
+                    <!-- Recent entries will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Journal Section -->
+        <section id="journal" class="content-section">
+            <div class="section-header">
+                <h1>My Journal</h1>
+                <button class="btn-primary" id="newEntryBtn">
+                    <i class="fas fa-plus"></i> New Entry
+                </button>
+            </div>
+            
+            <!-- New Entry Form -->
+            <div class="card entry-form hidden" id="entryForm">
+                <h3>How are you feeling today?</h3>
+                <form id="journalForm">
+                    <div class="form-group">
+                        <label for="entryTitle">Title (optional)</label>
+                        <input type="text" id="entryTitle" placeholder="Give your entry a title...">
+                    </div>
+                    <div class="form-group">
+                        <label for="entryContent">Your thoughts</label>
+                        <textarea id="entryContent" rows="8" placeholder="Write about your day, your feelings, your thoughts..." required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelEntry">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i> Save Entry
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Entries List -->
+            <div class="entries-container" id="entriesContainer">
+                <!-- Journal entries will be populated here -->
+            </div>
+        </section>
+
+        <!-- Insights Section -->
+        <section id="insights" class="content-section">
+            <div class="section-header">
+                <h1>Mood Insights</h1>
+                <p class="section-subtitle">Understand your emotional patterns</p>
+            </div>
+            
+            <div class="insights-grid">
+                <div class="card emotion-breakdown">
+                    <h3><i class="fas fa-pie-chart"></i> Emotion Breakdown</h3>
+                    <canvas id="emotionChart" width="300" height="300"></canvas>
+                </div>
+                
+                <div class="card mood-timeline">
+                    <h3><i class="fas fa-calendar-alt"></i> Mood Timeline</h3>
+                    <canvas id="timelineChart" width="400" height="200"></canvas>
+                </div>
+                
+                <div class="card insights-summary">
+                    <h3><i class="fas fa-lightbulb"></i> Key Insights</h3>
+                    <div class="insights-list" id="insightsList">
+                        <!-- AI-generated insights will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="content-section">
+            <div class="section-header">
+                <h1>Profile</h1>
+            </div>
+            
+            <div class="profile-grid">
+                <div class="card profile-info">
+                    <h3><i class="fas fa-user-circle"></i> Account Information</h3>
+                    <div class="profile-details" id="profileDetails">
+                        <!-- Profile details will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="card subscription-info">
+                    <h3><i class="fas fa-crown"></i> Subscription</h3>
+                    <div class="subscription-details" id="subscriptionDetails">
+                        <!-- Subscription details will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner hidden" id="loadingSpinner">
+        <div class="spinner"></div>
+        <p>Analyzing your mood...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
