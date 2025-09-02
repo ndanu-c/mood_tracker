@@ -4,7 +4,7 @@ from paystackapi.customer import Customer
 from paystackapi.plan import Plan
 from paystackapi.subscription import Subscription
 import logging
-from config import Config
+from .config import Config
 from datetime import datetime, timedelta
 
 class PaystackService:

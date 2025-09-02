@@ -5,9 +5,9 @@ import bcrypt
 import uuid
 from datetime import datetime, timedelta
 from .database import Database
-from sentiment_analyzer import SentimentAnalyzer
-from paystack_service import PaystackService
-from config import Config
+from .sentiment_analyzer import SentimentAnalyzer
+from .paystack_service import PaystackService
+from .config import Config
 import logging
 
 # Configure logging
