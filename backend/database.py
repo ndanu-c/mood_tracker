@@ -1,5 +1,5 @@
 import pymysql
-from config import Config
+from .config import Config
 import logging
 import time
 
